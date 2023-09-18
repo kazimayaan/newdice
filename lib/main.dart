@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +17,21 @@ void main() {
   );
 }
 
-class DicePage extends StatelessWidget {
+class DicePage extends StatefulWidget {
+  const DicePage({super.key});
+
+  @override
+  State<DicePage> createState() => _DicePageState();
+}
+
+class _DicePageState extends State<DicePage> {
+  int leftdice = 1;
+  int rightdice = 4;
+  void updateDice() {
+    leftdice = Random().nextInt(6) + 1;
+    rightdice = Random().nextInt(6) + 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -26,10 +42,14 @@ class DicePage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: TextButton(
-                  onPressed: () {
-                    print('left button gpt pressed agahahah');
-                  },
-                  child: Image.asset('images/dice1.png')),
+                onPressed: () {
+                  setState(() {
+                    updateDice();
+                  });
+                  print('left button gpt pressed agahahah');
+                },
+                child: Image.asset('images/dice$leftdice.png'),
+              ),
             ),
           ),
           Expanded(
@@ -39,8 +59,17 @@ class DicePage extends StatelessWidget {
               child: TextButton(
                   onPressed: () {
                     print('right button got pressed m=nigga');
+                    setState(() {
+                      updateDice();
+                    });
                   },
-                  child: Image.asset('images/dice4.png')),
+                  onLongPress: () {
+                    setState(() {
+                      rightdice = 6;
+                      leftdice = 6;
+                    });
+                  },
+                  child: Image.asset('images/dice$rightdice.png')),
             ),
           )
         ],
